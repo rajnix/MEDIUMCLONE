@@ -3,6 +3,7 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { sign } from "hono/jwt";
 import { userSignin, userSignup } from "@rajnixh/medium-common";
+import { cors } from 'hono/cors'
 
 
 
@@ -16,7 +17,7 @@ export const userRouter = new Hono<{
   }
 }>();
 
-
+userRouter.use('/*', cors())
 userRouter.post('/signup', async (c) => {
 
   const prisma = new PrismaClient({
