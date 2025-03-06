@@ -1,31 +1,38 @@
-import { AppBar } from "../components/AppBar"
+import { Appbar } from "../components/Appbar"
 import { BlogCard } from "../components/BlogCard"
-import { useBlogs } from "../hooks"
+import { BlogSkeleton } from "../components/BlogSkeleton";
+import { useBlogs } from "../hooks";
 
 export const Blogs = () => {
-    const { loading , blogs }: { loading: boolean, blogs: { id:number ,title: string, content: string, author: { username: string } }[] } = useBlogs();
-    if(loading){
+    const { loading, blogs } = useBlogs();
 
-        return (<div className="flex justify-center flex-col">loading...</div>)
-    }
-    return (
-        <div>
-            <AppBar />
-
-            <div className="flex justify-center">
-
-
-                <div className="">
-                    {blogs.map((blog)=><BlogCard 
-                    id={blog.id}
-                    title={blog.title} 
-                    content={blog.content} 
-                    publishedDate="6th March 2024" 
-                    authorName={blog.author.username || "Anon"} 
-                    />)}
-                    
+    if (loading) {
+        return <div>
+            <Appbar /> 
+            <div  className="flex justify-center">
+                <div>
+                    <BlogSkeleton />
+                    <BlogSkeleton />
+                    <BlogSkeleton />
+                    <BlogSkeleton />
+                    <BlogSkeleton />
                 </div>
             </div>
         </div>
-    )
+    }
+
+    return <div>
+        <Appbar />
+        <div  className="flex justify-center">
+            <div>
+                {blogs.map(blog => <BlogCard
+                    id={blog.id}
+                    authorName={blog.author.username || "Anonymous"}
+                    title={blog.title}
+                    content={blog.content}
+                    publishedDate={"2nd Feb 2024"}
+                />)}
+            </div>
+        </div>
+    </div>
 }
